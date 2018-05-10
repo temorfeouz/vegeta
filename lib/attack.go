@@ -3,8 +3,8 @@ package vegeta
 import (
 	"crypto/tls"
 	"fmt"
-	"io"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/http"
 	"sync"
@@ -207,6 +207,7 @@ func (a *Attacker) Attack(tr Targeter, rate uint64, du time.Duration) <-chan *Re
 			case <-a.stopch:
 				return
 			default: // all workers are blocked. start one more and try again
+				log.Printf("Adding 1 worker")
 				workers.Add(1)
 				go a.attack(tr, &workers, ticks, results)
 			}
@@ -263,11 +264,10 @@ func (a *Attacker) hit(tr Targeter, tm time.Time) *Result {
 	}
 	defer r.Body.Close()
 
-	in, err := io.Copy(ioutil.Discard, r.Body)
-	if err != nil {
+	if res.Body, err = ioutil.ReadAll(r.Body); err != nil {
 		return &res
 	}
-	res.BytesIn = uint64(in)
+	res.BytesIn = uint64(len(res.Body))
 
 	if req.ContentLength != -1 {
 		res.BytesOut = uint64(req.ContentLength)
