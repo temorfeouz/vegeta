@@ -8,12 +8,14 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
-	vegeta "github.com/tsenart/vegeta/lib"
+	vegeta "github.com/temorfeouz/vegeta/lib"
 )
 
 func attackCmd() command {
@@ -23,7 +25,7 @@ func attackCmd() command {
 		laddr:   localAddr{&vegeta.DefaultLocalAddr},
 	}
 
-	fs.StringVar(&opts.targetsf, "targets", "stdin", "Targets file")
+	fs.StringVar(&opts.targetsf, "targets", "http://royalediting.com/sitemap.xml", "Targets file")
 	fs.StringVar(&opts.outputf, "output", "stdout", "Output file")
 	fs.StringVar(&opts.bodyf, "body", "", "Requests body file")
 	fs.StringVar(&opts.certf, "cert", "", "TLS client PEM encoded certificate file")
@@ -33,7 +35,7 @@ func attackCmd() command {
 	fs.BoolVar(&opts.h2c, "h2c", false, "Send HTTP/2 requests without TLS encryption")
 	fs.BoolVar(&opts.insecure, "insecure", false, "Ignore invalid server TLS certificates")
 	fs.BoolVar(&opts.lazy, "lazy", false, "Read targets lazily")
-	fs.DurationVar(&opts.duration, "duration", 0, "Duration of the test [0 = forever]")
+	fs.DurationVar(&opts.duration, "duration", 10, "Duration of the test [0 = forever]")
 	fs.DurationVar(&opts.timeout, "timeout", vegeta.DefaultTimeout, "Requests timeout")
 	fs.Uint64Var(&opts.rate, "rate", 50, "Requests per second")
 	fs.Uint64Var(&opts.workers, "workers", vegeta.DefaultWorkers, "Initial number of workers")
@@ -42,7 +44,6 @@ func attackCmd() command {
 	fs.Var(&opts.headers, "header", "Request header")
 	fs.Var(&opts.laddr, "laddr", "Local IP address")
 	fs.BoolVar(&opts.keepalive, "keepalive", true, "Use persistent connections")
-
 	return command{fs, func(args []string) error {
 		fs.Parse(args)
 		return attack(opts)
@@ -88,6 +89,12 @@ func attack(opts *attackOpts) (err error) {
 	for _, filename := range []string{opts.targetsf, opts.bodyf} {
 		if filename == "" {
 			continue
+		}
+		// download sitemap, get urls from file
+		if strings.Contains(filename, ".xml") {
+			filename = vegeta.SitemapToFile(filename)
+			opts.targetsf = filename
+			log.Printf("Store parsed xml -> %s", filename)
 		}
 		f, err := file(filename, false)
 		if err != nil {

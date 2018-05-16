@@ -1,4 +1,4 @@
-# Vegeta [![Build Status](https://secure.travis-ci.org/tsenart/vegeta.svg)](http://travis-ci.org/tsenart/vegeta) [![Go Report Card](https://goreportcard.com/badge/github.com/tsenart/vegeta)](https://goreportcard.com/report/github.com/tsenart/vegeta) [![GoDoc](https://godoc.org/github.com/tsenart/vegeta?status.svg)](https://godoc.org/github.com/tsenart/vegeta) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tsenart/vegeta?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Donate](https://img.shields.io/badge/donate-bitcoin-yellow.svg)](#donate)
+# Vegeta [![Build Status](https://secure.travis-ci.org/temorfeouz/vegeta.svg)](http://travis-ci.org/temorfeouz/vegeta) [![Go Report Card](https://goreportcard.com/badge/github.com/temorfeouz/vegeta)](https://goreportcard.com/report/github.com/temorfeouz/vegeta) [![GoDoc](https://godoc.org/github.com/temorfeouz/vegeta?status.svg)](https://godoc.org/github.com/temorfeouz/vegeta) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/temorfeouz/vegeta?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Donate](https://img.shields.io/badge/donate-bitcoin-yellow.svg)](#donate)
 
 Vegeta is a versatile HTTP load testing tool built out of a need to drill
 HTTP services with a constant request rate.
@@ -8,7 +8,7 @@ It can be used both as a command line utility and a library.
 
 ## Install
 ### Pre-compiled executables
-Get them [here](http://github.com/tsenart/vegeta/releases).
+Get them [here](http://github.com/temorfeouz/vegeta/releases).
 
 ### Homebrew on Mac OS X
 You can install Vegeta using the [Homebrew](https://github.com/Homebrew/homebrew/) package manager on Mac OS X:
@@ -20,7 +20,7 @@ $ brew update && brew install vegeta
 You need `go` installed and `GOBIN` in your `PATH`. Once that is done, run the
 command:
 ```shell
-$ go get -u github.com/tsenart/vegeta
+$ go get -u github.com/temorfeouz/vegeta
 ```
 
 ## Contributing
@@ -456,7 +456,7 @@ import (
   "fmt"
   "time"
 
-  vegeta "github.com/tsenart/vegeta/lib"
+  vegeta "github.com/temorfeouz/vegeta/lib"
 )
 
 func main() {
