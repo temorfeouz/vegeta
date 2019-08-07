@@ -494,6 +494,12 @@ $ ulimit -u # processes / threads
 ```
 Just pass a new number as the argument to change it.
 
+##expamples
+./vegeta attack -targets /Users/artem/go/src/github.com/temorfeouz/vegeta/targets.txt -duration=10s -timeout=30s -workers=10000 -rate=10000 tee results.bin | vegeta report -reporter="hist[0,100ms,200ms,300ms,500ms,1s]"
+./vegeta attack -targets http://royalediting.com/sitemap.xml -duration=1m -timeout=30s -workers=1 tee results.bin | vegeta report -reporter=plot >plot.html
+ ./vegeta attack -targets http://royalediting.com/sitemap.xml -duration=1m -timeout=30s -workers=1 tee results.bin | vegeta report
+
+
 ## License
 See [LICENSE](LICENSE).
 

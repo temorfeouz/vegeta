@@ -18,9 +18,9 @@ _cgo_gotypes.go
 _cgo_export.*
 
 _testmain.go
-
+.idea
 *.exe
-
+plot.html
 vegeta
 vegeta.test
 vegeta-*.tar.gz
